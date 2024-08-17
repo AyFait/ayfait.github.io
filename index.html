@@ -46,6 +46,8 @@
   </head> 
 
   <body>
+    
+
     <header class="site-header">
       <nav class="nav">
         <div class="container flex-wrap">
@@ -53,7 +55,7 @@
             <a href="https://ayfait.github.io">Ayobami Faith Sonibare Jr.</a>
           </h1>
           <ul class="navbar">
-            <li><a href="wiki.html">Wiki-Me</a></li>
+            <li><a id="wiki-tab" href="wiki.html">Wiki-Me</a></li>
             <li><a href="news.html">News</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="Ayobami_Sonibare_CV0706b.pdf">CV</a></li>
@@ -301,6 +303,46 @@
         </small>
       </div>
     </footer>
-    <script src="assets/script/alert.js"></script>
+
+
+    <!-- The popup container -->
+    <div id="popup" style="display: none;">
+      <div>
+    <h2>Welcome!</h2>
+    <p>Please choose an option:</p>
+    <button id="proceed-btn">Proceed</button>
+    <button id="go-back-btn">Go Back</button>
+      </div>
+    </div>
+
+
+<!-- for the wiki page-->
+    <script>
+  // Get the wiki tab element
+  const wikiTab = document.getElementById('wiki-tab');
+
+  // Add a click event listener to the wiki tab
+  wikiTab.addEventListener('click', (e) => {
+    // Prevent the default link behavior
+    e.preventDefault();
+
+    // Display the popup
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+
+    // Add event listeners to the popup buttons
+    document.getElementById('proceed-btn').addEventListener('click', () => {
+      // Hide the popup and navigate to the wiki page
+      popup.style.display = 'none';
+      window.location.href = 'wiki.html';
+    });
+
+    document.getElementById('go-back-btn').addEventListener('click', () => {
+      // Hide the popup
+      popup.style.display = 'none';
+    });
+  });
+    </script>
+
   </body>
 </html>
