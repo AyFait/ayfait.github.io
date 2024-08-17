@@ -317,32 +317,8 @@
 
 
 <!-- for the wiki page-->
-    <script>
-  // Get the wiki tab element
-  const wikiTab = document.getElementById('wiki-tab');
 
-  // Add a click event listener to the wiki tab
-  wikiTab.addEventListener('click', (e) => {
-    // Prevent the default link behavior
-    e.preventDefault();
-
-    // Display the popup
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-
-    // Add event listeners to the popup buttons
-    document.getElementById('proceed-btn').addEventListener('click', () => {
-      // Hide the popup and navigate to the wiki page
-      popup.style.display = 'none';
-      window.location.href = 'wiki.html';
-    });
-
-    document.getElementById('go-back-btn').addEventListener('click', () => {
-      // Hide the popup
-      popup.style.display = 'none';
-    });
-  });
-    </script>
+    <script src="script.js"></script>
 
   </body>
 </html>
