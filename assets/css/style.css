@@ -77,7 +77,7 @@ a {
   border: 5px outset white;
 }
 
-
+/* POP-UP CONTENT */
 .popup {
     display: none;
     position: fixed;
