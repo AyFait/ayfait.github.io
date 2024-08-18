@@ -37,24 +37,24 @@
           </nav>
         </header>
     
-        <div class="page container">
+        <!-- <div class="page container">
   <h1 class="header-name">My Journey</h1>
   <div class="blog-container">
     <div class="section">
       <h2>Section 1</h2>
       <button class="toggle-btn">Expand/Retract</button>
       <div class="section-content">
-        <!-- Content for Section 1 goes here -->
+        <!-- Content for Section 1 goes here 
       </div>
     </div>
     <div class="section">
       <h2>Section 2</h2>
       <button class="toggle-btn">Expand/Retract</button>
       <div class="section-content">
-        <!-- Content for Section 2 goes here -->
+        <!-- Content for Section 2 goes here 
       </div>
     </div>
-    <!-- Add more sections as needed -->
+    <!-- Add more sections as needed 
   </div>
 </div>
    
@@ -62,5 +62,39 @@
 
 
         <script src="assets/script/collapsible.js"></script>
+        -->
+
+
+<div class="page container">
+        <h1 class="header-name">My Journey</h1>
+        <div class="blog-container">
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">Early Life</div>
+                <div class="section-content">
+                    <p>This is the content for the Early Life section.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">Education</div>
+                <div class="section-content">
+                    <p>This is the content for the Education section.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">Career</div>
+                <div class="section-content">
+                    <p>This is the content for the Career section.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">Achievements</div>
+                <div class="section-content">
+                    <p>This is the content for the Achievements section.</p>
+                </div>
+            </div>
+        </div>
+</div>
+        <script src="assets/script/collapsible2.js"></script>
+      
       </body>
 </html>
