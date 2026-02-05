@@ -46,33 +46,35 @@
                 
                 <button type="button" class="collapsible">Building SimsLayer</button>
                 <div class="content">
-                     <p><h2>SimsLayer (Not Yet Functional)</h2>
-						FEA simulation of 3D-Printed Parts<br>
-						<br>
-						This idea is birthed when I asked myself if there are efficient simulation tools specifically designed for 3D-Printed parts. Because there is no doubt of assumption that they have entirely different mechanical properties due to the manufauring process involed.<br>
-						<br>
+                     <h2>SimsLayer (Not Yet Functional)</h2>
+					<p>
+						FEA simulation of 3D-Printed Parts<br><br>
+						This idea is birthed when I asked myself if there are efficient simulation tools specifically designed for 3D-Printed parts. Because there is no doubt of assumption that they have entirely different mechanical properties due to the manufacturing process involved.<br><br>
+					
 						Why 3D-Printed Parts needs specialized simulation tools:<br>
 						While general Finite Element Analysis (FEA) software can be used, dedicated additive manufacturing (AM) software is far superior for this specific purpose because it understands:<br>
 						= Layer-by-layer material addition rather than assuming the entire part exists at once.<br>
 						= Directional material properties (anisotropy), especially for fiber-reinforced filaments.<br>
 						= Thermal history of the part throughout the build.<br>
-						= Structural integrity as it relates to directional oading due to layer-by-layer orientation of the part(s)<br>
-						<br>
-						These is particularly vital for metal 3D printing, where material costs are high and failure is expensive!<br>
-						<br>
-						<h2>Stages Involved:</h2>
-						
-						>Geometry or model is prepared in a CAD software<br>
-						>Geometry is either sliced using an external desired slicer or intended to be sliced using >Simlayer slicer<br>
-						>Geometry is imported into SimsLayer<br>
-						>Geometry is sliced if not already<br>
-						>GNN optimizes layers<br>
-						>Preprocessing is carried out<br>
-						>Meshing<br>
-						>GNN optimizes mesh<br>
-						>FEA<br>
-						>GNN suggests optimization for geometry<br>
+						= Structural integrity as it relates to directional loading due to layer-by-layer orientation of the part(s)<br><br>
+					
+						This is particularly vital for metal 3D printing, where material costs are high and failure is expensive!
 					</p>
+					
+					<h2>Stages Involved:</h2>
+					<p>
+						&gt; Geometry or model is prepared in a CAD software<br>
+						&gt; Geometry is either sliced using an external slicer or SimsLayer slicer<br>
+						&gt; Geometry is imported into SimsLayer<br>
+						&gt; Geometry is sliced if not already<br>
+						&gt; GNN optimizes layers<br>
+						&gt; Preprocessing is carried out<br>
+						&gt; Meshing<br>
+						&gt; GNN optimizes mesh<br>
+						&gt; FEA<br>
+						&gt; GNN suggests optimization for geometry<br>
+					</p>
+
 					<a href="blogs/buildingsl.html" target="_blank"><span style="color: rgb(10, 93, 128)">Read more...</span></a> 
                 </div>
                 
