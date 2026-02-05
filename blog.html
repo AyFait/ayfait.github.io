@@ -53,8 +53,8 @@
 					<p>At this stage, I tested pyslm (PythonSLM) for slicing logic, used trimesh for mesh handling, and generated early slicing prototypes using Copilot for experimentation and learning.</p>
 					
 					<p>26-01-26: GUI Integration & Architecture Shift</p>
-					<pre><code>git config --global user.name "AyFait"
-					git config --global user.email "sonibareayfate@gmail.com"</code></pre>
+					<pre><code>git config --global user.name "AyFait"</code></pre>
+					<pre><code>git config --global user.email "sonibareayfate@gmail.com"</code></pre>
 					<p>I realized that a purely desktop-based GUI would not support proper visualization and interaction. This led to a major architectural shift: the software must be locally web-based to enable real-time visualization, simulation, and interaction.</p>
 					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
 					
@@ -62,16 +62,16 @@
 					<p>A frontend-only web system is insufficient for efficient CAD processing and geometry operations. A backend CAD kernel is mandatory for solid modeling, boolean operations, topological analysis, and slicing logic. This led to adopting pythonocc-core.</p>
 					<p>Environment Setup Issue (Critical Error)</p>
 					<p><strong>Error:</strong> pythonocc-core does not install on native Windows CMD or standard pip environments.</p>
-					<pre><code>conda create -n pyoccenv python=3.8
-					conda activate pyoccenv
-					conda install -c conda-forge pythonocc-core</code></pre>
+					<pre><code>conda create -n pyoccenv python=3.8</code></pre>
+					<pre><code>conda activate pyoccenv</code></pre>
+					<pre><code>conda install -c conda-forge pythonocc-core</code></pre>
 					<pre><code>conda activate .\.conda</code></pre>
 					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
 					
 					<p>28–29-01-26: Frontend System Build (React)</p>
-					<pre><code>npm create vite@latest my-react-app
-						npm install
-						npm start</code></pre>
+					<pre><code>npm create vite@latest my-react-app</code></pre>
+					<pre><code>npm install</code></pre>
+					<pre><code>npm start</code></pre>
 					<p><strong>Error:</strong> npm build failed due to dependency conflicts, version incompatibilities, and bundling failures.</p>
 					
 					<p>30-01-26: Framework Evaluation & Migration</p>
