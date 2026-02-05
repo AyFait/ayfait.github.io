@@ -46,47 +46,49 @@
                 
                 <button type="button" class="collapsible">Building SimsLayer</button>
                 <div class="content">
-                    <p style="text-align: justify>2026-02-05: I began the SimSlayer project by defining the core development stages and creating the repository structure. The core vision is to build a slicing engine capable of parsing CAD models, slicing geometry, simulating print behavior, and optimizing structures for additive manufacturing. This is not intended to be just a slicer, but a simulation-driven optimization system for 3D printing workflows.</p>
+                     <p>2026-02-05: I began the SimSlayer project by defining the core development stages and creating the repository structure. The core vision is to build a slicing engine capable of parsing CAD models, slicing geometry, simulating print behavior, and optimizing structures for additive manufacturing. This is not intended to be just a slicer, but a simulation-driven optimization system for 3D printing workflows.</p>
 					
-					<p style="text-align: justify>23-01-26: I started by testing existing slicing and geometry libraries to understand baseline capabilities and limitations.</p>
+					<p>23-01-26: I started by testing existing slicing and geometry libraries to understand baseline capabilities and limitations.</p>
 					<pre><code>pip install PythonSLM trimesh numpy cascadio --timeout 300</code></pre>
-					<p style="text-align: justify>At this stage, I tested pyslm (PythonSLM) for slicing logic, used trimesh for mesh handling, and generated early slicing prototypes using Copilot for experimentation and learning.</p>
+					<p>At this stage, I tested pyslm (PythonSLM) for slicing logic, used trimesh for mesh handling, and generated early slicing prototypes using Copilot for experimentation and learning.</p>
 					
-					<p style="text-align: justify>26-01-26: GUI Integration & Architecture Shift</p>
+					<p>26-01-26: GUI Integration & Architecture Shift</p>
 					<pre><code>git config --global user.name "AyFait"
 					git config --global user.email "sonibareayfate@gmail.com"</code></pre>
-					<p style="text-align: justify>I realized that a purely desktop-based GUI would not support proper visualization and interaction. This led to a major architectural shift: the software must be locally web-based to enable real-time visualization, simulation, and interaction.</p>
+					<p>I realized that a purely desktop-based GUI would not support proper visualization and interaction. This led to a major architectural shift: the software must be locally web-based to enable real-time visualization, simulation, and interaction.</p>
 					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
 					
-					<p style="text-align: justify>Backend Reality Check — CAD Kernel Requirement</p>
-					<p style="text-align: justify>A frontend-only web system is insufficient for efficient CAD processing and geometry operations. A backend CAD kernel is mandatory for solid modeling, boolean operations, topological analysis, and slicing logic. This led to adopting pythonocc-core.</p>
-					<p style="text-align: justify>Environment Setup Issue (Critical Error)</p>
-					<p style="text-align: justify><strong>Error:</strong> pythonocc-core does not install on native Windows CMD or standard pip environments.</p>
+					<p>Backend Reality Check — CAD Kernel Requirement</p>
+					<p>A frontend-only web system is insufficient for efficient CAD processing and geometry operations. A backend CAD kernel is mandatory for solid modeling, boolean operations, topological analysis, and slicing logic. This led to adopting pythonocc-core.</p>
+					<p>Environment Setup Issue (Critical Error)</p>
+					<p><strong>Error:</strong> pythonocc-core does not install on native Windows CMD or standard pip environments.</p>
 					<pre><code>conda create -n pyoccenv python=3.8
 					conda activate pyoccenv
 					conda install -c conda-forge pythonocc-core</code></pre>
 					<pre><code>conda activate .\.conda</code></pre>
-					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
+					<pre><code>pip install fastapi
+					uvicorn[standard]
+					python-multipart
+					pythonocc-core</code></pre>
 					
-					<p style="text-align: justify>28–29-01-26: Frontend System Build (React)</p>
+					<p>28–29-01-26: Frontend System Build (React)</p>
 					<pre><code>npm create vite@latest my-react-app
 					npm install
 					npm start</code></pre>
-					<p style="text-align: justify><strong>Error:</strong> npm build failed due to dependency conflicts, version incompatibilities, and bundling failures.</p>
+					<p><strong>Error:</strong> npm build failed due to dependency conflicts, version incompatibilities, and bundling failures.</p>
 					
-					<p style="text-align: justify>30-01-26: Framework Evaluation & Migration</p>
+					<p>30-01-26: Framework Evaluation & Migration</p>
 					<pre><code>npx create-next-app@latest</code></pre>
-					<p style="text-align: justify>Configuration: Tailwind CSS (Yes), TypeScript (No), ESLint (Yes), Pages Router (Yes).</p>
-					<p style="text-align: justify>Next.js runs tooling on-the-fly without polluting the system environment with global packages.</p>
+					<p>Configuration: Tailwind CSS (Yes), TypeScript (No), ESLint (Yes), Pages Router (Yes).</p>
+					<p>Next.js runs tooling on-the-fly without polluting the system environment with global packages.</p>
 					
-					<p style="text-align: justify>UI Enhancement Libraries</p>
+					<p>UI Enhancement Libraries</p>
 					<pre><code>npm install framer-motion lucide-react</code></pre>
 					<h2>Current Technical State</h2>
-					<p style="text-align: justify><strong>Backend:</strong> FastAPI, pythonocc-core, Conda environment<br>
+					<p><strong>Backend:</strong> FastAPI, pythonocc-core, Conda environment<br>
 						<strong>Frontend:</strong> Next.js, Tailwind CSS, Framer Motion, Lucide React<br>
 						<strong>Architecture:</strong> Local web-based system with backend CAD kernel and frontend simulation interface
 					</p>
-
                 </div>
                 
             </div>
@@ -95,17 +97,17 @@
 
                 <button type="button" class="collapsible">The FunFit Project (First time as a Project Manager)</button>
                 <div class="content">
-                    <p style="text-align: justify>This is the content for section 2.</p>
+                    <p>This is the content for section 2.</p>
                 </div>
                 
                 <button type="button" class="collapsible">The AirVolt Project</button>
                 <div class="content">
-                    <p style="text-align: justify>This is the content for section 3.</p>
+                    <p>This is the content for section 3.</p>
                 </div>
                 
                 <button type="button" class="collapsible">A Data Cleaning Algorithm</button>
                 <div class="content">
-                    <p style="text-align: justify>This is the content for section 4.</p>
+                    <p>This is the content for section 4.</p>
                 </div>
 
                 
