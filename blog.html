@@ -46,47 +46,34 @@
                 
                 <button type="button" class="collapsible">Building SimsLayer</button>
                 <div class="content">
-                     <p>2026-02-05: I began the SimSlayer project by defining the core development stages and creating the repository structure. The core vision is to build a slicing engine capable of parsing CAD models, slicing geometry, simulating print behavior, and optimizing structures for additive manufacturing. This is not intended to be just a slicer, but a simulation-driven optimization system for 3D printing workflows.</p>
-					
-					<p>23-01-26: I started by testing existing slicing and geometry libraries to understand baseline capabilities and limitations.</p>
-					<pre><code>pip install PythonSLM trimesh numpy cascadio --timeout 300</code></pre>
-					<p>At this stage, I tested pyslm (PythonSLM) for slicing logic, used trimesh for mesh handling, and generated early slicing prototypes using Copilot for experimentation and learning.</p>
-					
-					<p>26-01-26: GUI Integration & Architecture Shift</p>
-					<pre><code>git config --global user.name "AyFait"</code></pre>
-					<pre><code>git config --global user.email "sonibareayfate@gmail.com"</code></pre>
-					<p>I realized that a purely desktop-based GUI would not support proper visualization and interaction. This led to a major architectural shift: the software must be locally web-based to enable real-time visualization, simulation, and interaction.</p>
-					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
-					
-					<p>Backend Reality Check — CAD Kernel Requirement</p>
-					<p>A frontend-only web system is insufficient for efficient CAD processing and geometry operations. A backend CAD kernel is mandatory for solid modeling, boolean operations, topological analysis, and slicing logic. This led to adopting pythonocc-core.</p>
-					<p>Environment Setup Issue (Critical Error)</p>
-					<p><strong>Error:</strong> pythonocc-core does not install on native Windows CMD or standard pip environments.</p>
-					<pre><code>conda create -n pyoccenv python=3.8</code></pre>
-					<pre><code>conda activate pyoccenv</code></pre>
-					<pre><code>conda install -c conda-forge pythonocc-core</code></pre>
-					<pre><code>conda activate .\.conda</code></pre>
-					<pre><code>pip install fastapi uvicorn[standard] python-multipart pythonocc-core</code></pre>
-					
-					<p>28–29-01-26: Frontend System Build (React)</p>
-					<pre><code>npm create vite@latest my-react-app</code></pre>
-					<pre><code>npm install</code></pre>
-					<pre><code>npm start</code></pre>
-					<p><strong>Error:</strong> npm build failed due to dependency conflicts, version incompatibilities, and bundling failures.</p>
-					
-					<p>30-01-26: Framework Evaluation & Migration</p>
-					<pre><code>npx create-next-app@latest</code></pre>
-					<p>Configuration: Tailwind CSS (Yes), TypeScript (No), ESLint (Yes), Pages Router (Yes).</p>
-					<p>Next.js runs tooling on-the-fly without polluting the system environment with global packages.</p>
-					
-					<p>UI Enhancement Libraries</p>
-					<pre><code>npm install framer-motion lucide-react</code></pre>
-					<h2>Current Technical State</h2>
-					<p><strong>Backend:</strong> FastAPI, pythonocc-core, Conda environment<br>
-						<strong>Frontend:</strong> Next.js, Tailwind CSS, Framer Motion, Lucide React<br>
-						<strong>Architecture:</strong> Local web-based system with backend CAD kernel and frontend simulation interface
+                     <p><h2>SimsLayer (Not Yet Functional)</h2>
+						FEA simulation of 3D-Printed Parts
+						
+						This idea is birthed when I asked myself if there are efficient simulation tools specifically designed for 3D-Printed parts. Because there is no doubt of assumption that they have entirely different mechanical properties due to the manufauring process involed.
+						
+						Why 3D-Printed Parts needs specialized simulation tools:
+						While general Finite Element Analysis (FEA) software can be used, dedicated additive manufacturing (AM) software is far superior for this specific purpose because it understands:
+						= Layer-by-layer material addition rather than assuming the entire part exists at once.
+						= Directional material properties (anisotropy), especially for fiber-reinforced filaments.
+						= Thermal history of the part throughout the build.
+						= Structural integrity as it relates to directional oading due to layer-by-layer orientation of the part(s)
+						
+						These is particularly vital for metal 3D printing, where material costs are high and failure is expensive!
+						
+						<h2>Stages Involved:</h2>
+						
+						>Geometry or model is prepared in a CAD software
+						>Geometry is either sliced using an external desired slicer or intended to be sliced using >Simlayer slicer
+						>Geometry is imported into SimsLayer
+						>Geometry is sliced if not already
+						>GNN optimizes layers
+						>Preprocessing is carried out
+						>Meshing
+						>GNN optimizes mesh
+						>FEA
+						>GNN suggests optimization for geometry
 					</p>
-					<h2><strong>To Be Continued...</strong></h2>
+					<a href="blog/buildingsl.html" target="_blank"><span style="color: rgb(10, 93, 128)">Read more...</span></a> 
                 </div>
                 
             </div>
