@@ -380,3 +380,101 @@ code {
     font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
 }
 
+
+/* ========================= */
+/* MOBILE RESPONSIVE LAYOUT */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  /* Container spacing */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* HEADER LAYOUT */
+  .flex-wrap {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Logo/name */
+  .logo {
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* NAVBAR: turn horizontal tabs into dropdown */
+  .navbar ul {
+    display: none; /* hide desktop nav */
+    flex-direction: column;
+    width: 100%;
+    background: white;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+  }
+
+  .navbar ul li {
+    display: block;
+    padding: 12px 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    display: block;
+    font-size: 26px;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 8px;
+  }
+
+  /* When menu is active */
+  .navbar.active ul {
+    display: flex;
+  }
+
+  /* Profile image */
+  .roundImg {
+    width: 110px;
+    height: 110px;
+    border-width: 3px;
+    margin: 0.8rem auto;
+  }
+
+  /* Page intro layout */
+  .page-intro {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .page-intro .page-intro-item {
+    padding: 0.4em 0;
+  }
+
+  /* Social icons */
+  .social {
+    justify-content: center;
+  }
+
+  /* Blog images */
+  .blog-container img {
+    width: 100%;
+  }
+
+  /* Text scaling */
+  body {
+    font-size: 0.95rem;
+  }
+
+  .header-name {
+    font-size: 1.2rem;
+  }
+
+}
+
+
