@@ -105,7 +105,6 @@ a {
     max-width: calc(100% - 40px); /* responsive on narrow viewports */
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
-}
 
 button {
     margin: 10px;
@@ -154,18 +153,16 @@ button {
                 content: "\2212";
             }
             
-            .content {
-                padding: 0 18px;
-                display: none;
-                overflow: hidden;
-                background-color: #f1f1f1;
-                margin-bottom: 10px;
-                text-align: justify;
-                text-align-last: left;
-                line-height: 1.6;
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    text-align: justify;
+    text-align-last: left;
+    line-height: 1.6;
 }
-
-            }
 
 .link,
 .intro a,
@@ -478,3 +475,35 @@ code {
 }
 
 
+/* ========================= */
+/* DARK / NIGHT MODE STYLES */
+/* ========================= */
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode a {
+  color: #a8d0e6;
+}
+
+body.dark-mode .navbar {
+  background: #1f1f1f;
+}
+
+body.dark-mode .navbar ul li a {
+  color: #e0e0e0;
+}
+
+body.dark-mode .roundImg {
+  border-color: #444;
+}
+
+/* Optional: dark cards / containers */
+body.dark-mode .blog-container,
+body.dark-mode .page-intro,
+body.dark-mode .container {
+  background: #1e1e1e;
+  border-radius: 6px;
+}
