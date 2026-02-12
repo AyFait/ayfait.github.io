@@ -62,6 +62,52 @@
         enableDarkMode(false);
       }
     } catch (e) {}
+
+    // ===== Count-up stats =====
+    const countupNodes = document.querySelectorAll(".countup[data-countup-target]");
+    if (countupNodes.length) {
+      const animateCountup = function (node) {
+        if (node.dataset.countupDone === "true") return;
+        node.dataset.countupDone = "true";
+
+        const endValue = parseInt(node.dataset.countupTarget, 10);
+        if (!Number.isFinite(endValue)) return;
+
+        const prefix = node.dataset.countupPrefix || "";
+        const suffix = node.dataset.countupSuffix || "";
+        const duration = 1400;
+        const start = performance.now();
+
+        const tick = function (now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(endValue * eased);
+          node.textContent = prefix + current.toLocaleString() + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateCountup(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.35 });
+
+        countupNodes.forEach(function (node) {
+          observer.observe(node);
+        });
+      } else {
+        countupNodes.forEach(function (node) {
+          animateCountup(node);
+        });
+      }
+    }
   }
 
   if (document.readyState === "loading") {

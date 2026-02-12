@@ -356,6 +356,48 @@ button {
   display: block;
 }
 
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.highlight-card {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fafafa;
+}
+
+.highlight-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0a5d80;
+  margin-bottom: 0.4rem;
+}
+
+.highlight-label {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.highlights-grid-centered {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.highlights-grid-centered .highlight-card {
+  grid-column: span 2;
+}
+
+.highlights-grid-centered .highlight-card.row2-left {
+  grid-column: 2 / span 2;
+}
+
+.highlights-grid-centered .highlight-card.row2-right {
+  grid-column: 4 / span 2;
+}
+
 
 
 pre {
@@ -463,6 +505,16 @@ code {
     width: 100%;
   }
 
+  .highlights-grid-centered {
+    grid-template-columns: 1fr;
+  }
+
+  .highlights-grid-centered .highlight-card,
+  .highlights-grid-centered .highlight-card.row2-left,
+  .highlights-grid-centered .highlight-card.row2-right {
+    grid-column: auto;
+  }
+
   /* Text scaling */
   body {
     font-size: 0.95rem;
@@ -549,4 +601,13 @@ body.dark-mode .content h6 {
 /* Override inline dark text colors used inside collapsible content blocks */
 body.dark-mode .content span[style*="color"] {
   color: #b9ddff !important;
+}
+
+body.dark-mode .highlight-card {
+  background: #242424;
+  border-color: #3a3a3a;
+}
+
+body.dark-mode .highlight-value {
+  color: #8ec5ff;
 }
