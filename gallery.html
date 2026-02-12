@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AyFait's Gallery</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.7/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <style>
+      .gallery-page { max-width: 980px; }
+
+      .gallery-list { display: grid; gap: 0.7rem; }
+
+      .gallery-item {
+        border: 1px solid #dce7ee;
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      .gallery-summary {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.65rem 0.8rem;
+        background: #f8fbfc;
+        cursor: pointer;
+        text-align: left;
+        border-radius: 12px;
+      }
+
+      .gallery-summary:hover { background: #edf6fb; }
+
+      .gallery-thumb {
+        width: 88px;
+        height: 58px;
+        object-fit: cover;
+        border: 1px solid #d2dde4;
+        border-radius: 7px;
+        background: #eef3f6;
+        flex: 0 0 auto;
+      }
+
+      .gallery-summary-title {
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: #183647;
+      }
+
+      .gallery-summary-caret {
+        margin-left: auto;
+        color: #31586d;
+        font-weight: 700;
+      }
+
+      .gallery-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gallery-modal.open { display: flex; }
+
+      .gallery-modal-card {
+        width: min(980px, 100%);
+        max-height: 92vh;
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #d8e3e9;
+        box-shadow: 0 18px 52px rgba(0, 0, 0, 0.35);
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+      }
+
+      .gallery-modal-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5edf2;
+        padding: 0.7rem 0.9rem;
+      }
+
+      .gallery-modal-title { font-weight: 700; font-size: 1.05rem; color: #183647; }
+
+      .gallery-close {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid #c7d5dd;
+        background: #f4f8fa;
+        color: #24526a;
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+
+      .gallery-modal-body { padding: 0.9rem; }
+
+      .gallery-carousel {
+        display: grid;
+        grid-template-columns: 40px 1fr 40px;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      .gallery-arrow {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        border: 1px solid #c8d5dc;
+        color: #0a5d80;
+        background: #f8fbfc;
+        font-size: 1rem;
+        font-weight: 700;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .gallery-arrow:disabled {
+        cursor: not-allowed;
+        color: #9eaeb7;
+        border-color: #dde5ea;
+        background: #f4f7f9;
+      }
+
+      .gallery-arrow.hidden { visibility: hidden; }
+
+      .gallery-card { margin: 0; }
+
+      .gallery-frame {
+        border: 1px solid #e0e8ed;
+        border-radius: 10px;
+        padding: 0.45rem;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        touch-action: pan-y;
+        user-select: none;
+        overflow: hidden;
+      }
+
+      .gallery-image {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        background: #f2f6f8;
+        border-radius: 8px;
+        display: block;
+      }
+
+      .gallery-title {
+        text-align: center;
+        margin-top: 0.6rem;
+        font-size: 0.97rem;
+        font-weight: 600;
+      }
+
+      .gallery-card.anim-left .gallery-frame,
+      .gallery-card.anim-left .gallery-title { animation: slideInFromLeft 260ms ease; }
+
+      .gallery-card.anim-right .gallery-frame,
+      .gallery-card.anim-right .gallery-title { animation: slideInFromRight 260ms ease; }
+
+      @keyframes slideInFromLeft {
+        from { opacity: 0.25; transform: translateX(-22px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes slideInFromRight {
+        from { opacity: 0.25; transform: translateX(22px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      body.dark-mode .gallery-item { border-color: #3d4a53; background: #1f2529; }
+      body.dark-mode .gallery-summary { background: #232c31; }
+      body.dark-mode .gallery-summary:hover { background: #2b373e; }
+      body.dark-mode .gallery-thumb { border-color: #41515b; background: #2d373d; }
+      body.dark-mode .gallery-summary-title { color: #e1edf3; }
+      body.dark-mode .gallery-summary-caret { color: #b7d0de; }
+      body.dark-mode .gallery-modal { background: rgba(0, 0, 0, 0.78); }
+      body.dark-mode .gallery-modal-card { background: #1f2529; border-color: #3d4a53; }
+      body.dark-mode .gallery-modal-header { border-bottom-color: #344049; }
+      body.dark-mode .gallery-modal-title { color: #e1edf3; }
+      body.dark-mode .gallery-close { background: #2a343a; border-color: #485962; color: #d9ebf4; }
+      body.dark-mode .gallery-frame { background: #1b2125; border-color: #36434c; }
+      body.dark-mode .gallery-image { background: #2a3338; }
+      body.dark-mode .gallery-title { color: #d9ebf4; }
+      body.dark-mode .gallery-arrow { background: #2a343a; border-color: #4a5b64; color: #9ed0e8; }
+      body.dark-mode .gallery-arrow:disabled { background: #273036; border-color: #3d4a53; color: #73828b; }
+
+      @media (max-width: 680px) {
+        .gallery-thumb { width: 74px; height: 50px; }
+        .gallery-summary-title { font-size: 0.93rem; }
+        .gallery-carousel { grid-template-columns: 34px 1fr 34px; gap: 0.45rem; }
+        .gallery-arrow { width: 34px; height: 34px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <nav class="nav">
+        <div class="container flex-wrap">
+          <h1 class="logo">
+            <a href="https://ayfait.github.io/">A. F. Sonibare Jr.</a>
+          </h1>
+          <ul class="navbar">
+            <li><a id="wiki-tab" href="wiki.html">Wiki-Me</a></li>
+            <li><a id="news-tab" href="news.html">News</a></li>
+            <li><a id="blog-tab" href="blog.html">Blog</a></li>
+            <li><a id="gallery-tab" href="gallery.html">Gallery</a></li>
+            <li><a id="cv-tab" href="Ayobami_Sonibare_CV0706b.pdf">CV</a></li>
+            <li><a id="proj-tab" href="projects.html">Projects</a></li>
+          </ul>
+        </div>
+      </nav>
+      <button id="darkModeToggle" class="dark-toggle" style="font-size: 0.8em">🌙</button>
+    </header>
+
+    <main class="page container gallery-page">
+      <h1 class="header-name">Gallery</h1>
+      <div id="gallery-root" class="gallery-list"></div>
+    </main>
+
+    <div id="gallery-modal" class="gallery-modal" aria-hidden="true">
+      <div class="gallery-modal-card" role="dialog" aria-modal="true" aria-label="Certificate gallery">
+        <div class="gallery-modal-header">
+          <span id="gallery-modal-title" class="gallery-modal-title"></span>
+          <button id="gallery-close" class="gallery-close" type="button" aria-label="Close">x</button>
+        </div>
+        <div class="gallery-modal-body">
+          <div class="gallery-carousel">
+            <button id="gallery-prev" class="gallery-arrow" type="button" aria-label="Previous image"><</button>
+            <figure id="gallery-figure" class="gallery-card">
+              <div id="gallery-frame" class="gallery-frame">
+                <img id="gallery-image" class="gallery-image" alt="" />
+              </div>
+              <figcaption id="gallery-caption" class="gallery-title"></figcaption>
+            </figure>
+            <button id="gallery-next" class="gallery-arrow" type="button" aria-label="Next image">></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const sectionSources = [
+          { folderName: "5. Applied CFD", folderPath: "gallery/b. online course certifications", files: ["5. Applied CFD Feb 2026.png"] },
+          { folderName: "4. Intro to 3D Printing with Metals", folderPath: "gallery/b. online course certifications", files: ["4. Intro to 3D Printing with Metals Dec 2025.png"] },
+          { folderName: "3. FEM - Linear - Nonlinear Analysis & PostProcessing", folderPath: "gallery/b. online course certifications", files: ["3. FEM - Linear - Nonlinear Analysis & PostProcessing Sep 2025.png"] },
+          {
+            folderName: "2. AM Specialization",
+            folderPath: "gallery/b. online course certifications/2. AM Specialization",
+            files: [
+              "0. Specialization AM Nov 2024.png",
+              "1. Intro to Additive Manufacturing Processes Oct 2024.png",
+              "2. Material Extrusion Nov 2024.png",
+              "3. Material Jetting and Stereolithography Nov 2024.png",
+              "4. Selective Laser Sintering and Metal Laser Powder Bed Fusion Nov 2024.png",
+              "5. Design for Additive Manufacturing Nov 2024.png"
+            ]
+          },
+          {
+            folderName: "1. ML Specialization",
+            folderPath: "gallery/b. online course certifications/1. ML Specialization",
+            files: [
+              "0. Specialization ML Jan 2025.png",
+              "1. Supervised Machine Learning  - Regression and Classification Jul 2024.png",
+              "2. Adv Learning Algorithms Jan 2025.png",
+              "3. Unsupervised Learning - Recommenders - Reinforcement Learning Aug 2024.png"
+            ]
+          }
+        ];
+
+        const monthMap = {
+          Jan: "January", Feb: "February", Mar: "March", Apr: "April", Jun: "June", Jul: "July",
+          Aug: "August", Sep: "September", Sept: "September", Oct: "October", Nov: "November", Dec: "December"
+        };
+
+        const toOrder = function (text) {
+          const match = text.match(/^(\d+)/);
+          return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+        };
+
+        const normalizeText = function (text) {
+          return text
+            .replace(/\bAM\b/g, "Additive Manufacturing")
+            .replace(/\bML\b/g, "Machine Learning")
+            .replace(/\bIntro\b/g, "Introduction")
+            .replace(/\bAdv\b/g, "Advanced")
+            .replace(/\bCFD\b/g, "Computational Fluid Dynamics")
+            .replace(/\bFEM\b/g, "Finite Element Method")
+            .replace(/PostProcessing/g, "Post Processing")
+            .replace(/\s*\-\s*/g, " - ")
+            .replace(/\s{2,}/g, " ")
+            .trim();
+        };
+
+        const expandMonths = function (text) {
+          return text.replace(/\b(Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\b/g, function (match) {
+            return monthMap[match] || match;
+          });
+        };
+
+        const headingFromFolder = function (folderName) {
+          return normalizeText(folderName.replace(/^\d+\.\s*/, "").trim());
+        };
+
+        const titleFromName = function (filename) {
+          let title = filename.replace(/^\d+\.\s*/, "").replace(/\.[^.]+$/, "").trim();
+          title = expandMonths(normalizeText(title));
+          return title.replace(
+            /\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})$/,
+            " Completion Certificate $1 $2"
+          );
+        };
+
+        const sections = sectionSources.slice().sort(function (a, b) {
+          return toOrder(b.folderName) - toOrder(a.folderName);
+        });
+
+        const root = document.getElementById("gallery-root");
+        const modal = document.getElementById("gallery-modal");
+        const modalTitle = document.getElementById("gallery-modal-title");
+        const closeBtn = document.getElementById("gallery-close");
+        const prevBtn = document.getElementById("gallery-prev");
+        const nextBtn = document.getElementById("gallery-next");
+        const figure = document.getElementById("gallery-figure");
+        const frame = document.getElementById("gallery-frame");
+        const image = document.getElementById("gallery-image");
+        const caption = document.getElementById("gallery-caption");
+
+        let activeSection = null;
+        let currentIndex = 0;
+        let touchStartX = null;
+
+        const updateModal = function (direction, animate) {
+          const orderedFiles = activeSection.orderedFiles;
+          const filename = orderedFiles[currentIndex];
+          image.src = encodeURI(activeSection.folderPath + "/" + filename);
+          image.alt = titleFromName(filename);
+          caption.textContent = titleFromName(filename);
+
+          prevBtn.disabled = currentIndex === 0;
+          nextBtn.disabled = currentIndex === orderedFiles.length - 1;
+
+          prevBtn.classList.toggle("hidden", orderedFiles.length === 1);
+          nextBtn.classList.toggle("hidden", orderedFiles.length === 1);
+
+          if (animate) {
+            figure.classList.remove("anim-left", "anim-right");
+            void figure.offsetWidth;
+            figure.classList.add(direction > 0 ? "anim-right" : "anim-left");
+          }
+        };
+
+        const openModal = function (sectionData) {
+          activeSection = sectionData;
+          currentIndex = 0;
+          modalTitle.textContent = headingFromFolder(sectionData.folderName);
+          modal.classList.add("open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          updateModal(0, false);
+        };
+
+        const closeModal = function () {
+          modal.classList.remove("open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        };
+
+        sections.forEach(function (sectionData) {
+          const orderedFiles = sectionData.files.slice().sort(function (a, b) {
+            return toOrder(a) - toOrder(b);
+          });
+          if (!orderedFiles.length) return;
+
+          const item = document.createElement("section");
+          item.className = "gallery-item";
+
+          const summary = document.createElement("button");
+          summary.className = "gallery-summary";
+          summary.type = "button";
+
+          const summaryThumb = document.createElement("img");
+          summaryThumb.className = "gallery-thumb";
+          summaryThumb.src = encodeURI(sectionData.folderPath + "/" + orderedFiles[0]);
+          summaryThumb.alt = headingFromFolder(sectionData.folderName);
+
+          const summaryTitle = document.createElement("span");
+          summaryTitle.className = "gallery-summary-title";
+          summaryTitle.textContent = headingFromFolder(sectionData.folderName);
+
+          const summaryCaret = document.createElement("span");
+          summaryCaret.className = "gallery-summary-caret";
+          summaryCaret.textContent = ">";
+
+          summary.appendChild(summaryThumb);
+          summary.appendChild(summaryTitle);
+          summary.appendChild(summaryCaret);
+          item.appendChild(summary);
+          root.appendChild(item);
+
+          summary.addEventListener("click", function () {
+            openModal({ folderName: sectionData.folderName, folderPath: sectionData.folderPath, orderedFiles: orderedFiles });
+          });
+        });
+
+        prevBtn.addEventListener("click", function () {
+          if (activeSection && currentIndex > 0) {
+            currentIndex -= 1;
+            updateModal(-1, true);
+          }
+        });
+
+        nextBtn.addEventListener("click", function () {
+          if (activeSection && currentIndex < activeSection.orderedFiles.length - 1) {
+            currentIndex += 1;
+            updateModal(1, true);
+          }
+        });
+
+        frame.addEventListener("touchstart", function (event) {
+          touchStartX = event.changedTouches[0].clientX;
+        });
+
+        frame.addEventListener("touchend", function (event) {
+          if (!activeSection || touchStartX === null) return;
+          const deltaX = event.changedTouches[0].clientX - touchStartX;
+          touchStartX = null;
+          if (Math.abs(deltaX) < 35) return;
+
+          if (deltaX > 0 && currentIndex > 0) {
+            currentIndex -= 1;
+            updateModal(-1, true);
+          } else if (deltaX < 0 && currentIndex < activeSection.orderedFiles.length - 1) {
+            currentIndex += 1;
+            updateModal(1, true);
+          }
+        });
+
+        closeBtn.addEventListener("click", closeModal);
+        modal.addEventListener("click", function (event) {
+          if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (!modal.classList.contains("open")) return;
+          if (event.key === "Escape") closeModal();
+          if (event.key === "ArrowLeft" && !prevBtn.disabled) prevBtn.click();
+          if (event.key === "ArrowRight" && !nextBtn.disabled) nextBtn.click();
+        });
+      })();
+    </script>
+    <script src="assets/script/main.js" defer></script>
+  </body>
+</html>
