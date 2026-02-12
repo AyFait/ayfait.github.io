@@ -534,3 +534,19 @@ body.dark-mode .content {
 body.dark-mode .content a {
   color: #8ec5ff;
 }
+
+body.dark-mode .content p,
+body.dark-mode .content li,
+body.dark-mode .content h1,
+body.dark-mode .content h2,
+body.dark-mode .content h3,
+body.dark-mode .content h4,
+body.dark-mode .content h5,
+body.dark-mode .content h6 {
+  color: #e5e7eb;
+}
+
+/* Override inline dark text colors used inside collapsible content blocks */
+body.dark-mode .content span[style*="color"] {
+  color: #b9ddff !important;
+}
