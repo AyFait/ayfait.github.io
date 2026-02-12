@@ -507,3 +507,30 @@ body.dark-mode .container {
   background: #1e1e1e;
   border-radius: 6px;
 }
+
+/* Dark mode readability for collapsible sections */
+body.dark-mode .collapsible {
+  background-color: #262626;
+  color: #f3f4f6;
+  border: 1px solid #3a3a3a;
+}
+
+body.dark-mode .collapsible:hover,
+body.dark-mode .collapsible.active {
+  background-color: #303030;
+}
+
+body.dark-mode .collapsible:after {
+  color: #cbd5e1;
+}
+
+body.dark-mode .content {
+  background-color: #1a1a1a;
+  color: #e5e7eb;
+  border: 1px solid #2f2f2f;
+  border-top: 0;
+}
+
+body.dark-mode .content a {
+  color: #8ec5ff;
+}
