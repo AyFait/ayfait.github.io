@@ -398,6 +398,55 @@ button {
   grid-column: 4 / span 2;
 }
 
+.proficiencies-list {
+  display: grid;
+  gap: 12px;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.proficiency-card {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fafafa;
+}
+
+.proficiency-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #dedede;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.proficiency-title {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.proficiency-meter {
+  width: 115px;
+  height: 14px;
+  border: 1px solid #b7b7b7;
+  border-radius: 999px;
+  background: #ffffff;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.proficiency-fill {
+  height: 100%;
+  background: #0a5d80;
+}
+
+.proficiency-details {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 
 
 pre {
@@ -515,6 +564,16 @@ code {
     grid-column: auto;
   }
 
+  .proficiency-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .proficiency-meter {
+    width: 100%;
+    max-width: 220px;
+  }
+
   /* Text scaling */
   body {
     font-size: 0.95rem;
@@ -610,4 +669,22 @@ body.dark-mode .highlight-card {
 
 body.dark-mode .highlight-value {
   color: #8ec5ff;
+}
+
+body.dark-mode .proficiency-card {
+  background: #242424;
+  border-color: #3a3a3a;
+}
+
+body.dark-mode .proficiency-head {
+  border-bottom-color: #404040;
+}
+
+body.dark-mode .proficiency-meter {
+  background: #1d1d1d;
+  border-color: #4a4a4a;
+}
+
+body.dark-mode .proficiency-fill {
+  background: #8ec5ff;
 }

@@ -108,6 +108,51 @@
         });
       }
     }
+
+    // ===== Proficiency bar fill =====
+    const proficiencyBars = document.querySelectorAll(".proficiency-fill[data-proficiency-target]");
+    if (proficiencyBars.length) {
+      const animateBar = function (bar) {
+        if (bar.dataset.proficiencyDone === "true") return;
+        bar.dataset.proficiencyDone = "true";
+
+        const target = parseFloat(bar.dataset.proficiencyTarget);
+        if (!Number.isFinite(target)) return;
+
+        const clampedTarget = Math.max(0, Math.min(target, 100));
+        const duration = 1100;
+        const start = performance.now();
+
+        const tick = function (now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = clampedTarget * eased;
+          bar.style.width = current + "%";
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      if ("IntersectionObserver" in window) {
+        const barObserver = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateBar(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.35 });
+
+        proficiencyBars.forEach(function (bar) {
+          barObserver.observe(bar);
+        });
+      } else {
+        proficiencyBars.forEach(function (bar) {
+          animateBar(bar);
+        });
+      }
+    }
   }
 
   if (document.readyState === "loading") {
