@@ -1,2 +1,2 @@
-# My-Page
-ayfait.github.io
+# ayfait.github.io
+>Welcome!
