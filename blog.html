@@ -103,7 +103,31 @@
                 
                 <button type="button" class="collapsible">A Data Cleaning Algorithm</button>
                 <div class="content">
-                    <p>This is the content for section 4.</p>
+                    <button type="button" class="collapsible">A Data Cleaning Algorithm</button>
+						<div class="content">
+    						<h2>One Click Data Cleaner Algorithm (DCA)</h2>
+    						<p>
+        						This code is meant to do your first job for you, if you're about to work on a data processing or analysis task.<br><br>
+
+        						Domain knowledge of your dataset is highly recommended before using this algorithm.<br>
+        						Assumes that your csv file has a single row of defined header/title (starting point, first row).<br><br>
+
+        						<strong>Scope:</strong><br>
+        						&gt; Takes raw dataset<br>
+        						&gt; Goes through each cell, fixing using outlined instruction<br>
+        						&gt; Gives back cleaned dataset<br><br>
+
+        						<strong>Structure:</strong><br>
+        						&gt; Fills empty cells using interpolation<br>
+        						&gt; Detects categorical columns<br>
+        						&gt; Maps non-numerical elements to numbers<br>
+        						&gt; Detects alpha-numerical/object-numerical cells<br><br>
+
+        						Some columns might get deleted or "dropped" from the dataset if it does not meet a threshold (which can be changed as deemed fit), like number of empty cells, number of full "char" cells. Resulting in smaller features in the output dataset.
+    						</p>
+
+    						<a href="blogs/dataclean1.html" target="_blank"><span style="color: rgb(10, 93, 128)">Read more...</span></a>
+						</div>
                 </div>
 
                 
