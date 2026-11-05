@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Building SolvHive</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="icon" href="../AyFait_Main2.png" type="image/x-icon">
+        <link
+          href="https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300;400;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.0.7/css/all.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+        />
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-BFW4LF0HYY"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag("js", new Date());
+          gtag("config", "G-BFW4LF0HYY");
+        </script>
+      </head>
+
+    <body>
+        <header class="site-header">
+          <nav class="nav">
+            <div class="container flex-wrap">
+              <h1 class="logo">
+                <a href="https://ayfait.github.io/">A. F. Sonibare Jr.</a>
+              </h1>
+              <ul class="navbar">
+            <li><a id="wiki-tab" href="../wiki.html">Wiki-Me</a></li>
+            <li><a id="news-tab" href="../news.html">News</a></li>
+            <li><a id="blog-tab" href="../blog.html">Blog</a></li>
+            <li><a id="gallery-tab" href="../gallery.html">Gallery</a></li>
+            <li><a id="proj-tab" href="../projects.html">Projects</a></li>
+          </ul>
+            </div>
+          </nav>
+          <button id="darkModeToggle" class="dark-toggle" style="font-size: 0.8em;">🌙</button>
+        </header>
+
+        <div class="page container">
+            <h1 class="header-name">Building SolvHive</h1>
+            <figure class="article-hero">
+                <img src="../assets/img/solvhive-homepage.png" alt="SolvHive homepage. A dark sidebar lists New Project, All Projects, FEA, and CFD. The main column is titled The Computational Modeling and Engineering Simulation Repository and shows an FEA contour of a bicycle frame above the line Where Engineers Solve and Share." />
+                <figcaption>The SolvHive homepage, as the app looks now.</figcaption>
+            </figure>
+            <div class="blog-container">
+                <div class="article-content">
+                    <p>I have been building SolvHive as a place where a simulation can outlive the laptop it was run on. This is the account I want on the blog: why I started, how the first version lived on Base44, how I brought it into Cursor and replaced the platform piece by piece, and how the parsers and the media pipeline deal with the files engineers actually export.</p>
+                    <p>It matches the repository as it stands in November 2026. The short map for GitHub is the repository README. The site itself is <a href="https://solvhive.com" target="_blank">solvhive.com</a>.</p>
+
+                    <h2>Why I wanted this</h2>
+                    <p>A finished FEA or CFD study is a pile of decisions: the mesh, the contacts, the loads, the solver controls, the picture that shows whether the answer is believable. Most of that pile stays on a personal machine or a company drive. Software already has a public place to put a project, read the write-up, and take the files. Simulation did not.</p>
+                    <p>I wanted one page per study. The page should show the write-up, the files, a short loop of the result, and the settings the solver actually used, read from the files rather than retyped into a form. People should be able to find a project, argue with it in a thread, and keep their own copy. The first cut is FEA and CFD only. Thermal, electromagnetics, and the rest can wait until the page for these two is honest.</p>
+                    <p>The name is SolvHive. It is the hive for solvers, and for the people who run them.</p>
+
+                    <h2>The first version, on Base44</h2>
+                    <p>I did not start by writing an API. I started on Base44, because I wanted the product in front of me before I wanted a server of my own. Base44 gave me JSON-schema entities, sign-in, file upload, and a place to hang a few backend functions. I spent that time on the engineering product.</p>
+                    <p>The shape I settled on is still the shape of the data.</p>
+                    <p>A <strong>project</strong> has a title, a markdown description, a simulation type of FEA or CFD, a solver, material and domain tags, result images, a public or private flag, and later an <code>analysis_settings</code> object. A <strong>project file</strong> is metadata plus a URL: name, category, size, and a text preview when the file is text. Comments thread through <code>parent_id</code>. A vote is one row per person per project or comment. A watch follows a project. A follow connects two people. A public <strong>user profile</strong> holds the bio, the avatar, the tags, the links, and a short list of feats, so a visitor can see who wrote a comment without being handed the account table.</p>
+                    <p>I wrote the interface to feel like the tools engineers already live in. A sidebar, a feed, tag pills, a markdown readme, a star and an eye. Light and dark come from CSS variables and <code>next-themes</code>. Action buttons run blue into green. Destructive actions run orange into red. Guests can read everything. Starring, watching, commenting, following, uploading, and editing send you through sign-in and bring you back to the same page.</p>
+                    <p>I also wrote the terms before I asked anyone to upload. Public projects are public in the strong sense: someone with the link may download, copy, and adapt the files. If that is wrong for a given study, the study stays private. Signup requires the checkbox.</p>
+                    <p>By the end of that stretch I had the explore feed, project pages, upload and edit, profiles, threaded comments, votes, watches, follows, zip download, a first ANSYS parser, and the terms. The reputation badge went up and came back down. I still want a trust signal. I did not want a badge I could not explain, so the votes stayed and the badge left the interface.</p>
+                    <p>Base44 was the right scaffold. It was the wrong place to keep going once the files got serious. Solver decks are large, reports are messy, animations need a transcoder, and I wanted the bytes in a bucket I control. That is the point where I exported the project and opened it in Cursor.</p>
+
+                    <h2>Opening it in Cursor</h2>
+                    <p>Cursor is where the cleanup happened. The Base44 export was a Vite React app with the pages, the Tailwind theme, and the entity schemas under <code>base44/entities/</code>. The pages were written against a client called <code>db</code>, injected as <code>globalThis.__B44_DB__</code>. I kept that call shape on purpose. <code>src/api/base44Client.js</code> is imported first, and it installs a client that speaks my API with the same entity methods the pages already used. Rewriting every screen at the same time as replacing the server would have frozen the product.</p>
+                    <p>What I removed, over the following work, was the assumption that Base44 was still the backend. <code>vite.config.js</code> is now plain Vite. The dev server proxies <code>/api</code> and <code>/uploads</code> to the local API on port 3001. Auth, storage, and the parser functions moved into <code>backend/</code>.</p>
+                    <p>A few scars from the export are still visible, and I have been treating them as compatibility rather than as a second product. Token keys are still <code>base44_access_token</code>. Some pages still begin with the <code>globalThis.__B44_DB__</code> fallback so a screen can render even if the client import order slips. The fallback returns empty lists. It is a guard, and the real client is the one that must load.</p>
+
+                    <h2>The frontend</h2>
+                    <p>The site is a single React 18 app in <code>src/</code>. Vite builds it. Tailwind and the shadcn primitives do the components. React Router keeps one layout around the public pages and gates <code>/upload</code> and <code>/project/:id/edit</code>. The homepage stays in the first download. Project, profile, auth, terms, privacy, and feedback are lazy.</p>
+                    <p>I host that build on <strong>Cloudflare Pages</strong>, on <a href="https://solvhive.com" target="_blank">solvhive.com</a>. Pages is a static host, and it was answering <code>/api/*</code> with <code>index.html</code>, including Google's callback. <code>functions/_middleware.js</code> is the fix. Any path under <code>/api</code> or <code>/uploads</code> is fetched from <a href="https://api.solvhive.com" target="_blank">api.solvhive.com</a>, and redirects are passed through untouched so the Google hop can still land on the site with the session token.</p>
+                    <p>In development I do not need that function. Vite proxies the same two prefixes to localhost.</p>
+
+                    <h2>The API, the database, and Render</h2>
+                    <p>The API is Express, in <code>backend/</code>. It listens on <code>PORT</code>, which on my machine is 3001 and on Render is whatever the platform sets. One proxy sits in front of it, so <code>trust proxy</code> is 1 and rate limits see the visitor address.</p>
+                    <p>I host the process on <strong>Render</strong>, at <a href="https://api.solvhive.com" target="_blank">api.solvhive.com</a>. The database is <strong>Postgres on Render</strong>, through <code>DATABASE_URL</code>. Boot is strict about that string. A production process refuses a localhost database. A development process refuses a Render host. <code>ALLOW_PROD_DB_LOCAL</code> is the only override, and it stays unset, so a laptop script cannot attach to the live database by accident.</p>
+                    <p>The schema is small on purpose. <code>accounts</code> holds email, a normalized email, the password hash, the Google subject, the username, and whether the address is verified. <code>otps</code> holds a hashed code, a purpose (<code>verify</code> or <code>reset</code>), an expiry, an attempt count, and the time it was sent. Everything the product calls an entity is one row in <code>records</code>: entity name, id, owner, timestamps, and a JSON document. Projects stay documents. Search does not get a second table to drift out of date. A <code>project_tags</code> function and expression indexes sit on that JSON. Migration <code>008_project_search.sql</code> turns on <code>pg_trgm</code> and <code>fuzzystrmatch</code>.</p>
+                    <p>The SQL files in <code>backend/migrations/</code> run at startup: media rows, parse results, stored-object bookkeeping, usernames, storage locations, publish jobs, raw-media cleanup, search, and the later search updates that read a parsed solver header.</p>
+                    <p>A cold Render process answers a login with a gateway status or an HTML error page. The client treats 502, 503, 504, 522, and 524 as the machine waking up, and it retries. Those statuses are not a wrong password.</p>
+                    <p>Ownership is checked in the API. Public reads stay open. Creating a row requires a signed-in user. Updating or deleting a community row requires the owner or an admin. A project that is <code>publishing</code> or <code>parsing</code> rejects new uploads and edits until the job finishes. Once it is published, <code>analysis_settings</code> cannot be hand-edited. The way to change them is to re-parse.</p>
+
+                    <h2>The R2 layer</h2>
+                    <p>Solver files do not belong in Postgres, and they do not belong on the Render disk. That disk is ephemeral. I put bytes in <strong>Cloudflare R2</strong>, in two buckets that the process refuses to confuse.</p>
+                    <p><code>solvhive-media</code> is public. Converted images, posters, WebM, and MP4 live there with a year-long immutable cache. The public base URL is what the gallery loads.</p>
+                    <p><code>solvhive-solved</code> is private. Decks, logs, and reports live there. The browser uploads with a presigned multipart PUT, in 8 megabyte parts, and downloads with a signed GET that lasts fifteen minutes. The bucket needs a CORS rule that exposes <code>ETag</code>, or the browser cannot complete the multipart upload.</p>
+                    <p>The code is <code>backend/services/storage/r2.js</code>, with key rules in <code>backend/src/utils/r2Keys.js</code> and <code>backend/services/storage/keys.js</code>. <code>STORAGE_DRIVER=local</code> is the development driver and writes under <code>backend/uploads</code>. Production must set <code>STORAGE_DRIVER=r2</code>, and it must set <code>R2_ENDPOINT</code>, the access keys, and a public base URL. The public URL is configuration. The API never trusts the Host header of the incoming request when it builds a file URL.</p>
+                    <p>R2 rejects the AWS SDK's default flexible checksums on presigned uploads. The client sets checksum calculation and validation to <code>WHEN_REQUIRED</code>, so those PUTs go out without the extra checksum headers.</p>
+                    <p>Older rows still pointed at <code>localhost:3001</code> or at files that had been stored on the API host. <code>scripts/migrateMediaUrls.js</code> rewrites those onto the buckets. <code>scripts/configureR2Lifecycle.js</code> expires abandoned <code>tmp/</code> objects. Replacing an avatar or a render unlinks the database row. I do not yet delete every previous object in the same gesture, so a replaced file can linger until lifecycle or a cleanup script catches it.</p>
+                    <p>When the driver is R2, <code>POST /api/upload</code> returns 409 and tells the client to use the direct solved upload. The API should not be a tunnel for multi-gigabyte decks.</p>
+
+                    <h2>Email codes</h2>
+                    <p>Signup is email and password, then a code, then a session. I send the code with <strong>Resend</strong>, from <code>SolvHive &lt;verify@solvhive.com&gt;</code>. The message is a six-digit code and a line that it expires in ten minutes. The HTML escapes the code. The code is never put in the JSON response.</p>
+                    <p>The flow I implemented:</p>
+                    <ol>
+                        <li><code>POST /api/auth/register</code> checks the address, rejects disposable domains, rejects a password under six characters, and rejects an email that already exists. The account is stored with <code>email_verified</code> false. A <code>User</code> record is created in the same step.</li>
+                        <li>The code is six digits from a cryptographic random integer, padded. Only a bcrypt hash is stored, with purpose <code>verify</code>, a ten-minute expiry, and <code>attempts</code> at zero.</li>
+                        <li><code>POST /api/auth/verify</code> loads the row, deletes it if it is expired or already at five attempts, and on a mismatch increments the counter. Five failures delete the row. The messages say whether the code expired, locked, or is simply wrong, and how many tries remain.</li>
+                        <li>A correct code marks the email verified and returns a JWT that lasts seven days. Login before that returns 403.</li>
+                        <li>Resend waits sixty seconds, measured from <code>sent_at</code>. It is also limited by IP and by address. Asking to resend for an unknown email, or for an email that is already verified, returns the same <code>{ ok: true }</code> so the route does not reveal which addresses exist.</li>
+                    </ol>
+                    <p>If <code>RESEND_API_KEY</code> is empty, development prints the code in the API log and production returns 503. A send that throws becomes 502 and leaves the account in <code>pending_verification</code>, so the person can ask for another code instead of being told the account was never created.</p>
+                    <p>Password reset uses the same table with purpose <code>reset</code>. An unknown email still returns success. In development the response includes a reset URL. In production it does not.</p>
+                    <p>Rate limits sit on the whole <code>/api/auth</code> router, and again on signup, verify, and resend. I would rather lock a noisy address out for an hour than let someone walk the code space.</p>
+
+                    <h2>Google</h2>
+                    <p>Google is a second door into the same <code>accounts</code> table. I did not want a parallel user base.</p>
+                    <p>The button sends the browser to <code>GET /api/auth/google?returnTo=...</code>. The return path has to be a relative path on my site. A protocol-relative URL, a backslash, or a token already sitting in the query is stripped. The API signs a state JWT that lives ten minutes and carries that path, then redirects to Google with <code>openid email profile</code> and <code>prompt=select_account</code>. The redirect URI is <code>GOOGLE_REDIRECT_URI</code>, or <code>https://api.solvhive.com/api/auth/google/callback</code> when that variable is unset. It has to match the Google Cloud console character for character. The Pages middleware exists so this callback is not swallowed by the static site.</p>
+                    <p>On the way back I verify the state before I touch the code. A cancelled consent, a missing client secret, an expired state, or a token exchange that fails all redirect to <code>/login</code> with a short error. I then read the OpenID userinfo endpoint. I continue only when Google sets <code>email_verified</code> to true and the address passes the same validator as a typed email.</p>
+                    <p>Lookup is by <code>google_id</code> first, then by email. If the person already has a password account, I attach the Google subject and, if they had never finished the code, I mark the email verified. Google has already verified it. If they are new, I create the account with a random password hash they will never use, <code>email_verified</code> true, and the Google subject stored. A unique-violation on that insert means a parallel callback won the race. I load the row that won and continue. The session cookie is not a cookie. It is the same seven-day JWT, placed on the return URL as <code>access_token</code>, and the client strips it into local storage.</p>
+                    <p><code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> live on the API. If either is missing, that redirect lands on <code>/login</code> with a configuration message instead of failing halfway through the token exchange.</p>
+
+                    <h2>How a project becomes a page</h2>
+                    <p>Upload writes a project, then files, then media. Publish is a job, not a button that parses inside the request. <code>backend/services/publish/worker.js</code> claims a row, loads the solved files from local disk or from the private bucket, and runs the ANSYS bundle. A preview parse can refresh the panel while you are still editing. A sealed parse runs only while the project is <code>publishing</code> or <code>parsing</code>, and then the settings lock.</p>
+                    <p><code>ds.dat</code> is materialized to a temp file and streamed, because it is the large one. Reports and the other sidecars are read with a size cap. A file the classifier does not recognize is skipped and listed. A missing object is recorded as failed, and the rest of the bundle still merges.</p>
+                    <p>Search is separate from that panel. <code>GET /api/projects/search</code> only returns projects that are public and published. A query ranks an exact title, then the first word, then a prefix, then a substring, then a small typo, then a trigram, then solver or software text, then a tag. I wanted <code>benm</code> to find a beam study, and I wanted <code>ANSYS</code> to find a project whose parsed header says ANSYS Mechanical, ANSYS Fluent, or ANSYS 2021 R1. Filters for tags, FEA or CFD, and software combine. The packages are ANSYS, COMSOL, Abaqus, and SolidWorks Simulation. Older rows that stored <code>ansys_mechanical</code> or <code>ansys_fluent</code> are read as ANSYS. When the upload form left the package empty, the filter still classifies the project from <code>analysis_settings.summary</code> and the solver and version lines. Facet counts ignore their own filter and respect the others, so the checkboxes stay usable while one is ticked. The notes for the query string are in <code>docs/search.md</code> in the repository.</p>
+
+                    <h2>The log parsers, and the faults they are built for</h2>
+                    <p>A solver log is a text file that was never designed as an API. My rule is that the original file stays untouched, a bad line never aborts the file, and anything I could not read remains visible as an unparsed range.</p>
+                    <p><code>parseFile</code> in <code>backend/services/parsers/engine.js</code> is the path for a single file requested from the project page.</p>
+                    <p><strong>The file is too big.</strong> Above <code>MAX_PARSE_FILE_MB</code> (500 by default) I return an empty result with that sentence in <code>errors</code> and the byte count filled in. I do not sample a random middle.</p>
+                    <p><strong>The bytes are not the encoding I hoped.</strong> The head is decoded before any plugin sees it. A BOM selects UTF-8 or UTF-16. A declared charset is tried next. Then strict UTF-8. Then windows-1252. Mechanical reports on Windows are often the last of those. I do not call <code>Buffer.toString()</code> on report bytes, because that hides a bad sequence instead of telling me the file was not UTF-8.</p>
+                    <p><strong>I might have the wrong solver.</strong> <code>detect.js</code> looks at the filename and the first 64 KB. <code>ds.dat</code> or a leading <code>ANTYPE</code> is ANSYS at 0.95. MatML, a <code>.mntr</code>, or the word ANSYS in the head follow. COMSOL and Abaqus match their banners and set the version from that banner. Anything else is unknown at 0.1. Each plugin then returns its own confidence. I take the highest score at or above 0.4. Under that, <code>generic.js</code> runs. It only emits a table when a line splits on tab, semicolon, comma, or wide spaces and at least sixty percent of the cells parse as numbers. Confidence on that path is 0.25, and <code>metadata.fallback</code> is true, so the UI can show that this was a guess.</p>
+                    <p><strong>A line is hostile.</strong> Lines are streamed. A line past the length cap is warned and skipped. An empty line is claimed so it does not show up as a hole. A plugin catches a bad line, warns, and continues. I will not let one corrupt increment throw away the convergence table above it.</p>
+                    <p><strong>Numbers lie in plain text.</strong> <code>normalizeNumericToken</code> keeps the raw spelling and a parsed value. <code>NaN</code> and infinities are explicit. Thousands separators (<code>1,234.5</code>) lose their commas. A single comma between digits (<code>1,25</code>) becomes a decimal point, which is how a lot of European logs are written. A Fortran exponent (<code>1.2D-03</code>) becomes <code>1.2e-03</code> before <code>Number</code> sees it. If it still is not finite, the cell stays text. The ANSYS quantity splitter is stricter. It takes a leading number and a unit from strings like <code>4.1819e-005 m</code>, and it refuses to treat a word such as a release name as a unit.</p>
+                    <p><strong>I have to show my work.</strong> Every claimed line number goes into a set. After the plugin returns, consecutive unclaimed lines become one range with a short text preview, capped at 2000 characters. That range is both <code>unparsedRanges</code> and <code>raw_sections</code>. Completeness is how much of the file was claimed, not how confident the detector felt.</p>
+                    <p><strong>The work must not stall the API.</strong> The parse runs in a worker thread. <code>PARSE_TIMEOUT_SECONDS</code> kills it. The result is inserted as a new <code>parse_results</code> row with the parser version, so an older reading of the same file is still there. One table exports as CSV or JSON without reparsing.</p>
+                    <p><strong>A model must not invent a stress.</strong> <code>ENABLE_LLM_PARSE</code> defaults to false, and no model runs inside the API process. If I turn it on, it only runs when the file is unknown or completeness is under 0.5. Every numeric token in an accepted row or scalar has to occur verbatim in the first 64 KB of the file. A miss drops that row and adds a warning. The result is capped at 0.35 confidence and tagged <code>source.origin: "llm"</code>. I would rather show a gap than a modulus the log never contained.</p>
+                    <p>Adding a solver is one file in <code>backend/services/parsers/plugins/</code>. Export <code>id</code>, <code>canParse({ filename, head, detect })</code>, and <code>parse(stream, options)</code>. Record rows through <code>options.context</code> (<code>scalar</code>, <code>row</code>, <code>claim</code>, <code>warn</code>). Do not throw on a bad line. The registry loads the directory and sorts <code>generic</code> last. That is the door I left open for OpenFOAM, LS-DYNA, Fluent, and Nastran. I have not walked through it yet. The three plugins that are real today are ANSYS, COMSOL, and Abaqus, and they pull solver version, materials, increments, and the end-of-run marker when the log carries them.</p>
+
+                    <h2>The ANSYS bundle, and the faults in that merge</h2>
+                    <p>The log plugin answers "what tables are in this one file?" The project page asks a harder question: "what was this Mechanical study?" A study is several files that disagree in small ways. <code>parseAnsysBundle</code> classifies each name and merges them.</p>
+                    <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>File</th>
+                                <th>What I take from it</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>ds.dat</code></td>
+                                <td>The deck. Title, units, analysis type, solver, tolerance, substeps, end time, restart, bodies, contacts, forces, bolt pretension. Mesh blocks are skipped.</td>
+                            </tr>
+                            <tr>
+                                <td><code>solve.out</code></td>
+                                <td>Whether it converged, warnings and errors, iterations, equation count, cores, memory, CPU time, build.</td>
+                            </tr>
+                            <tr>
+                                <td><code>MatML.xml</code></td>
+                                <td>Material names and property values.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.htm</code>, <code>.html</code>, <code>.mht</code></td>
+                                <td>The Mechanical report: environment, mesh statistics, loads, result min and max, figures.</td>
+                            </tr>
+                            <tr>
+                                <td>CAERep XML</td>
+                                <td>A structured echo of the same study, used where the report is thin.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.cnd</code></td>
+                                <td>Units and tabular condition data.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.aapresults</code>, <code>.mntr</code>, <code>.err</code>, <code>.pcs</code></td>
+                                <td>Classified and marked unused. They are not inputs to the panel.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.pdf</code></td>
+                                <td>Rejected, with the message to export <code>.mht</code> or <code>.htm</code> instead.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <p><strong>Mesh blocks will eat the parser.</strong> A <code>ds.dat</code> is mostly nodes and elements. <code>parseDsDat</code> streams the file and, on <code>nblock</code>, <code>eblock</code>, or <code>cmblock</code>, discards lines until the terminating <code>-1</code>. I still read an element count off the <code>eblock</code> header when it is there. Bodies, contacts, and loads are the comments and commands around those blocks. The cap for a deck read into memory, when I cannot stream, is 80 MB. A report cap is 20 MB. Over the cap, that file is failed and the others continue.</p>
+                    <p><strong>The report is a MIME bundle, and many of its charts are empty.</strong> An MHT file carries an HTML part and then PNG parts in base64. I split on the MIME boundaries, decode the HTML with the same charset ladder, and lift each PNG by its <code>Content-Location</code>. Result charts in a Mechanical report are often white axes with nothing plotted. <code>isBlankChart</code> resizes the PNG to 64 by 64 and counts pixels above 245 in every channel. At or above 97 percent white, or if the image is under 120 by 80, I drop it. A force plot or a body contour uses more of the frame and stays.</p>
+                    <p><strong>The same fact appears three times.</strong> <code>mergeAnsys</code> prefers a present value over <code>Unspecified</code>, and it keeps a chain so a missing report does not wipe a value the deck already had. Version is the report product plus the solve.out build when both exist. Status is "Converged", "Converged with warnings", or "Not converged" from the solve file, and only then from the report's status line. Unit system prefers the report, then <code>.cnd</code>, then the deck. Project title skips the literal word "Project". Environment temperature prefers the report, then the deck's reference temperature.</p>
+                    <p><strong>"Program Controlled" is a choice, and it is kept as a tag.</strong> When the report says program controlled and another source has the value the program actually used, I keep the resolved value and tag it <code>Program Controlled</code>. When nobody resolved it, the words stay as text.</p>
+                    <p><strong>A missing field stays missing.</strong> <code>unspecified()</code> is the value <code>Unspecified</code>. Downstream code checks <code>isUnspecified</code> before it prefers the next source. An empty string is treated the same way. The panel can render that absence on purpose.</p>
+                    <p><strong>Geometry and mesh numbers get mixed up.</strong> Node and element counts, and the mesh metric, are lifted out of the report's mesh group into their own stats. The group that remains is the controls, with those labels removed, so the same number is not printed twice under two headings.</p>
+                    <p><strong>Loads need a figure and a curve.</strong> A load from the report is matched to a CAERep point list by name, then to a deck component, then to a figure whose target is that load. If the points exist, the component list is cleared so I do not draw both. Results get the same name match for their contour.</p>
+                    <p><strong>The report was never exported.</strong> Mesh, results, and scope carry a hint string when the report is absent, and the analysis block falls back to end time, substeps, solver, tolerance, and restart from <code>ds.dat</code>. The page can say what it is missing. The schema version on the object is 2. <code>leafPaths</code> walks every field that has a <code>value</code>, and it skips <code>deck</code> and <code>raw</code>, which is how I check that a change still covers the tree.</p>
+                    <p><strong>Publish and parse can race.</strong> While <code>publish_state</code> is <code>publishing</code> or <code>parsing</code>, uploads and edits return 409. A job whose project has already left that state is skipped as stale, so a slow worker cannot overwrite a newer seal. After publication, a direct write to <code>analysis_settings</code> is rejected. Re-parse is the supported door.</p>
+
+                    <h2>Animations and the other media faults</h2>
+                    <p>People were uploading result movies that were minutes long, and GIFs that were a single deformation cycle buried in a hundred megabytes. I wanted the card on the explore page to move, and I wanted it to be small.</p>
+                    <p><code>POST /api/media</code> checks the file before it stores a row. The response comes back with <code>status: "pending"</code>. Conversion runs on a queue, <code>CONVERSION_CONCURRENCY</code> at a time. <code>REDIS_URL</code> selects BullMQ. Without it, the queue is in-process. <code>GET /api/media/:id</code> is the owner, or an admin, and reports <code>pending</code>, <code>processing</code>, <code>done</code>, or <code>failed</code>.</p>
+                    <p><strong>The bytes must match the name.</strong> <code>file-type</code> reads the content. JPEG, PNG, WebP, GIF, AVIF, APNG, MP4, MOV, WebM, and MKV are the allowed set. A claimed extension that disagrees is <code>TYPE_MISMATCH</code>. An empty file is <code>EMPTY_FILE</code>. Over the image or video megabyte cap is 413. A solver log posted to this route is told to use the solved upload. An image posted to the solved route is told to use <code>/api/media</code>.</p>
+                    <p><strong>A still can be a lie.</strong> <code>sharp</code> decodes with a pixel cap, <code>failOn: 'error'</code>, and auto-rotate, then writes a clean file so orientation and metadata do not survive. A pixel-limit error becomes <code>DIMENSIONS_TOO_LARGE</code>. Anything else from the decoder is <code>CORRUPT_MEDIA</code>. Output is WebP at the configured quality. Widths 400, 800, and 1600 are written only when the source is wider than that width. A 200 pixel thumbnail follows the same rule. I never upscale.</p>
+                    <p><strong>A GIF is a video.</strong> If <code>sharp</code> reports more than one frame, or the file is APNG, I probe it with ffprobe and send it down the motion path. A single-frame GIF stays a still.</p>
+                    <p><strong>The loop should bounce.</strong> Deformation clips look wrong if they cut and jump back to the first frame. <code>encodeVariant</code> takes the first <code>MAX_SOURCE_SECONDS</code> of the source and runs a filter: drop to <code>MOTION_FPS</code>, scale to the target width without upscaling, split, reverse the second copy, and concatenate. The card target is 480 pixels. The full target is 1080. Each becomes an H.264 MP4 with <code>+faststart</code>, a VP9 WebM, and a WebP poster from the first frame. The gallery component plays the WebM muted, inline, and looping, and offers the MP4 as the second source.</p>
+                    <p><strong>Reverse will blow up on a 4K frame.</strong> ffmpeg's reverse filter holds the clip in memory. <code>fitMotionWidth</code> computes the scaled frame and, if the pixel count would pass <code>MAX_REVERSE_FRAME_PIXELS</code> (921600, a 720p frame), shrinks until it fits. A frame that still cannot fit throws, and that media row fails instead of taking the worker down.</p>
+                    <p><strong>VP9 sometimes rejects the filter graph.</strong> The WebM encode is tried with the ping-pong graph. On failure I delete the partial file and encode again with fps and scale only, no reverse. The MP4 has already been written with the ping-pong graph. The card still moves. The WebM is the one that degrades, and only that variant.</p>
+                    <p><strong>ffmpeg can hang.</strong> Each spawn has <code>FFMPEG_TIMEOUT_SECONDS</code>. The child is killed, and the error kept for the row is the last 500 characters of stderr. The temp directory is removed in a <code>finally</code> block whether the encode worked or not.</p>
+                    <p><strong>Originals.</strong> <code>KEEP_ORIGINALS</code> is false in the environment I ship. The converted derivatives are what the site serves. Turning the flag on stores <code>original.&lt;ext&gt;</code> next to them. I default to off because the private bucket is for solver files, and a 100 MB source movie does not need a second life beside an 8 MB loop.</p>
+                    <p>The player is <code>src/components/LoopingMedia.jsx</code>. A URL that is not a WebM stays an image. A WebM gets a poster, either the one the API stored or the sibling <code>poster.webp</code> inferred from a <code>play.webm</code> name.</p>
+
+                    <h2>What I watch for when something is wrong</h2>
+                    <p>I have stopped treating a blank panel as a mystery and started treating it as one of these cases.</p>
+                    <p>If the analysis panel is empty, I look at the file list on the project first. A PDF was rejected on purpose. A <code>ds.dat</code> over the cap failed and should say so on that file's status. A report that never exported leaves the hint on mesh and results, with deck values in the analysis fallback. A figure that is missing was often the white-chart filter, and I would rather lose a blank PNG than show one.</p>
+                    <p>If a log parse looks thin, I open <code>unparsedRanges</code> and the warnings. A low confidence and <code>metadata.fallback</code> means the generic detector ran. A warning about a truncated line or a stopped read means the cap, not a logic error in the plugin. Parser version on the row tells me whether I am looking at a result from before a plugin change.</p>
+                    <p>If an animation never leaves <code>pending</code>, the queue is either waiting on concurrency or the worker threw. <code>failed</code> keeps the ffmpeg tail. The usual causes are a frame that could not be reversed, a timeout, or a file whose probe reported no video stream.</p>
+                    <p>If Google dumps the person on the homepage HTML, the callback hit Pages instead of the API. The middleware and the redirect URI are the two places that fix that. If they land on <code>/login</code> with an error, the state expired, they cancelled, or Google did not mark the email verified.</p>
+                    <p>If a signup never receives a code, production with a missing Resend key returns 503, and a Resend failure returns 502 with <code>pending_verification</code>. The account exists. Resend is the next step, after the cooldown.</p>
+                    <p>If a file URL still points at localhost or at the API host, it predates the R2 migration. The migrate script is the repair. New uploads take the public media URL or a signed solved URL and do not go through the API disk.</p>
+
+                    <h2>Where I am</h2>
+                    <p>The site is up. The explore feed, the project page, profiles, comments, votes, watches, follows, terms, privacy, and feedback are the product I started on Base44, now served from my own API. Email codes and Google both create the same kind of account. Media converts. The ANSYS panel fills in from a real export. Search survives a typo. Private solver files sit in a bucket the API disk does not have to hold.</p>
+                    <p>I am not done. The plugin door is open and only three solvers walk through it. Domains beyond FEA and CFD are still a tag I refused to add until the page can tell their settings apart. Project history, in the sense of a study that changes and keeps the previous reading, is not built. The reputation badge is still off. LLM parsing stays off until I am willing to defend every number it would add. Replaced objects in R2 are not always deleted in the same request as the row that pointed at them.</p>
+                    <p>That is the honest state of SolvHive. The next file I care about is the next solver that shows up in an upload and currently falls through to the generic table detector.</p>
+                    <p class="article-back"><a href="../blog.html">Back to the blog</a></p>
+                </div>
+            </div>
+        </div>
+        <script src="../assets/script/main.js" defer></script>
+      </body>
+</html>
