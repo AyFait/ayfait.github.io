@@ -4,48 +4,48 @@
       folderName: "AirVolt Development",
       folderPath: "gallery/3. airvolt development",
       files: [
-        "1. Introducing the team to FRP.jpg",
-        "2. Highlighthing the composoition of FRP.jpg",
-        "3. Testing out some mixtures with the team.JPG",
-        "4 Testing out some mixtures with the team.jpg",
-        "5. The 3D printed mold for the blades.jpg",
-        "6. Pattern for the fiberglass.jpg",
-        "7. Fiberglass cut into desired shapes.jpg",
-        "8. Sizing the fiberglass on the mold.jpg",
-        "9. Measuring the resin and catalyst.jpg",
-        "10. Applying resin on mold.JPG",
-        "11. Placing fiberglass on mold.JPG",
-        "12. Assembling.JPG",
-        "13. Fixing the gearbox.JPG",
-        "14. Running tests.JPG",
-        "15. Desired output.JPG",
-        "16. Good to go.JPG",
-        "17. Up for showcase.JPG"
+        "1. Introducing the team to FRP.webp",
+        "2. Highlighthing the composoition of FRP.webp",
+        "3. Testing out some mixtures with the team.webp",
+        "4. Testing out some mixtures with the team.webp",
+        "5. The 3D printed mold for the blades.webp",
+        "6. Pattern for the fiberglass.webp",
+        "7. Fiberglass cut into desired shapes.webp",
+        "8. Sizing the fiberglass on the mold.webp",
+        "9. Measuring the resin and catalyst.webp",
+        "10. Applying resin on mold.webp",
+        "11. Placing fiberglass on mold.webp",
+        "12. Assembling.webp",
+        "13. Fixing the gearbox.webp",
+        "14. Running tests.webp",
+        "15. Desired output.webp",
+        "16. Good to go.webp",
+        "17. Up for showcase.webp"
       ]
     },
-    { folderName: "5. Applied CFD", folderPath: "gallery/2. online course certifications", files: ["5. Applied CFD Feb 2026.png"] },
-    { folderName: "4. Intro to 3D Printing with Metals", folderPath: "gallery/2. online course certifications", files: ["4. Intro to 3D Printing with Metals Dec 2025.png"] },
-    { folderName: "3. FEM - Linear - Nonlinear Analysis & PostProcessing", folderPath: "gallery/2. online course certifications", files: ["3. FEM - Linear - Nonlinear Analysis & PostProcessing Sep 2025.png"] },
+    { folderName: "5. Applied CFD", folderPath: "gallery/2. online course certifications", files: ["5. Applied CFD Feb 2026.webp"] },
+    { folderName: "4. Intro to 3D Printing with Metals", folderPath: "gallery/2. online course certifications", files: ["4. Intro to 3D Printing with Metals Dec 2025.webp"] },
+    { folderName: "3. FEM - Linear - Nonlinear Analysis & PostProcessing", folderPath: "gallery/2. online course certifications", files: ["3. FEM - Linear - Nonlinear Analysis & PostProcessing Sep 2025.webp"] },
     {
       folderName: "2. AM Specialization",
       folderPath: "gallery/2. online course certifications/2. AM Specialization",
       files: [
-        "0. Specialization AM Nov 2024.png",
-        "1. Intro to Additive Manufacturing Processes Oct 2024.png",
-        "2. Material Extrusion Nov 2024.png",
-        "3. Material Jetting and Stereolithography Nov 2024.png",
-        "4. Selective Laser Sintering and Metal Laser Powder Bed Fusion Nov 2024.png",
-        "5. Design for Additive Manufacturing Nov 2024.png"
+        "0. Specialization AM Nov 2024.webp",
+        "1. Intro to Additive Manufacturing Processes Oct 2024.webp",
+        "2. Material Extrusion Nov 2024.webp",
+        "3. Material Jetting and Stereolithography Nov 2024.webp",
+        "4. Selective Laser Sintering and Metal Laser Powder Bed Fusion Nov 2024.webp",
+        "5. Design for Additive Manufacturing Nov 2024.webp"
       ]
     },
     {
       folderName: "1. ML Specialization",
       folderPath: "gallery/2. online course certifications/1. ML Specialization",
       files: [
-        "0. Specialization ML Jan 2025.png",
-        "1. Supervised Machine Learning  - Regression and Classification Jul 2024.png",
-        "2. Adv Learning Algorithms Jan 2025.png",
-        "3. Unsupervised Learning - Recommenders - Reinforcement Learning Aug 2024.png"
+        "0. Specialization ML Jan 2025.webp",
+        "1. Supervised Machine Learning  - Regression and Classification Jul 2024.webp",
+        "2. Adv Learning Algorithms Jan 2025.webp",
+        "3. Unsupervised Learning - Recommenders - Reinforcement Learning Aug 2024.webp"
       ]
     }
   ];
@@ -116,10 +116,15 @@
   let currentIndex = 0;
   let touchStartX = null;
 
+  const imageUrl = function (folderPath, filename) {
+    return folderPath.split("/").concat(filename).map(encodeURIComponent).join("/");
+  };
+
   const updateModal = function (direction, animate) {
     const orderedFiles = activeSection.orderedFiles;
     const filename = orderedFiles[currentIndex];
-    image.src = encodeURI(activeSection.folderPath + "/" + filename);
+    image.src = imageUrl(activeSection.folderPath, filename);
+    image.decoding = "async";
     image.alt = titleFromName(filename);
     caption.textContent = titleFromName(filename);
 
@@ -167,8 +172,10 @@
 
     const summaryThumb = document.createElement("img");
     summaryThumb.className = "gallery-thumb";
-    summaryThumb.src = encodeURI(sectionData.folderPath + "/" + orderedFiles[0]);
+    summaryThumb.src = imageUrl(sectionData.folderPath, orderedFiles[0]);
     summaryThumb.alt = headingFromFolder(sectionData.folderName);
+    summaryThumb.loading = "lazy";
+    summaryThumb.decoding = "async";
 
     const summaryTitle = document.createElement("span");
     summaryTitle.className = "gallery-summary-title";
